@@ -5,7 +5,7 @@
 {
     'name': 'Sale Term payment ',
     'version': '1.0',
-    'author': 'Nobody',
+    'author': 'Saidi Oussama',
     'summary': 'Inventory, Logistic, Storage,Sale',
     'description': """
 

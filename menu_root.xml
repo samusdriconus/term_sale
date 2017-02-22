@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <menuitem id="term_sale_home_root"
+      name="Acceuil"
+      sequence="0" groups="term_sale.group_term_sale_user"/>
+   <menuitem id="term_sale_sale_menu"
+    name="Ventes"
+    parent="term_sale_home_root"
+    sequence="0" groups="term_sale.group_term_sale_user"
+    />
+
+
+
+
+
+</data>
+</openerp>

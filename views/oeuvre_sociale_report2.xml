@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<template id="oeuvre_etat2">
+		    <t t-call="report.html_container">
+		        <t t-foreach="get_oeuvre(data['form']['ids'])" t-as="o">
+				        	<div class="header">
+				        		<center><h1><p t-field="res_company.entete"/></h1></center>
+				        	</div>
+						<br/>
+		            <div class="page">
+		        		<center><h1>Etat <span t-esc="o.name"/></h1></center>
+		        		<table class="table table-condensed">
+	                        <thead>
+	                            <tr>
+	                                <th>N°.</th>
+	                                <th>N° Client</th>
+	                                <th class="text-right">Nom Prénom</th>
+	                                <th class="text-right">Montant</th>
+	                                <th class="text-right">Avance</th>
+	                                <th class="text-right">Echéance</th>
+	                                <th class="text-right">Nombre d'echéances restante</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr t-foreach="o.client_ids" t-as="line">
+	                            	<td style="border: 1px solid"></td>
+	                                <td style="border: 1px solid"><span t-if="not line.partner_id.use_bio_id"><p t-field="line.partner_id.reference"/></span><span t-if="line.partner_id.use_bio_id"><p t-field="line.partner_id.bio_id"/></span></td>
+	                                <td style="border: 1px solid" class="text-center"><span t-field="line.partner_id.name"/></td>
+	                                <td style="border: 1px solid" class="text-center"><span t-field="line.total" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+	                                <td style="border: 1px solid" class="text-center"><span t-field="line.avance"/></td>
+	                                <td style="border: 1px solid" class="text-center"><span t-field="line.echeance"/></td>
+	                                <td style="border: 1px solid" class="text-center"><span t-if="line.nb_echeance" t-field="line.nb_echeance"/><span t-if="not line.nb_echeance">0</span> </td>
+	                            </tr>
+	                            <tr>
+	                            	<td colspan="4" class="text-center"><h4><b>Total : </b></h4></td>
+	                                <td class="text-center" style="border: 1px solid"><b><span t-field="o.total_avance" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></b></td>
+	                                <td class="text-center" style="border: 1px solid"><b><span t-field="o.total_echeance" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></b></td>
+	                            	<td></td>
+	                            </tr>
+                        	</tbody>                    
+
+	                    </table>
+
+		        	</div>
+		        </t>
+		    </t>
+		</template>
+	</data>
+</openerp>

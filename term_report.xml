@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+     <!--<report auto="False" id="report_term_form"  model="formulaire.vente" name="report.term.form" header="False" rml="term_sale/report/report_term_form.rml"  string="Formulaire de vente"/>-->
+
+
+    <report 
+        id="etat_formulaire_vente"
+        model="formulaire.vente"
+        string="Etat"
+        report_type="qweb-pdf"
+        name="term_sale.formulaire_vente_report"
+        file="term_sale.formulaire_vente_report"/>
+
+
+
+    <report 
+        id="etat_oeuvre_sociale"
+		    model="oeuvre.etat"
+        string="Etat"
+        report_type="qweb-pdf"
+            attachment_use="True"
+
+        name="term_sale.oeuvre_etat"
+        file="term_sale.oeuvre_etat"/>
+
+
+
+      <report 
+        id="etat_oeuvre_sociale2"
+        model="oeuvre.etat"
+        string="Etat"
+        report_type="qweb-pdf"
+            attachment_use="True"
+
+        name="term_sale.oeuvre_etat2"
+        file="term_sale.oeuvre_etat2"
+        menu="False"/>
+
+
+  		
+
+  </data>
+</openerp>

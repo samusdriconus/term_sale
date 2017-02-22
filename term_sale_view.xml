@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+
+    <menuitem id="term_sale_settings_root"
+      name="Gestion"
+      sequence="1"/>
+
+
+    <!-- Ressource: Partner-->
+
+    <record id="term_sale_partner_form" model="ir.ui.view">
+      <field name="name">term.sale.partner.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+        <data>
+          <xpath expr="//field[@name='state_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+          </xpath>
+
+          <xpath expr="//page[@string='Contacts']" position="replace"/>
+
+          <field name="name" position="after">
+            <label for="reference" attrs="{'invisible' : [('customer','!=','1')]}"/>
+            <field name="reference" placeholder="Numéro" class="oe_inline"/>
+          </field>
+
+          <field name="website" position="replace">
+            <field name="birth_day" ></field>
+            <field name="job_id" ></field>
+            <field name="job_company_id"></field>
+          </field>
+          <field name="mobile" position="replace">
+            <field name="bank" />
+            <field name="account_number"/>
+            <field name="salary_average"/>
+            <field name="account_raised"/>
+            <field name="cni_pc_available"/>
+          </field>
+          <field name="title" position="replace"></field>
+          <field name="state_id" postion="replace"></field>
+          <field name="function" position="replace">
+            <field name="card_id_reference"></field>
+            <field name="card_id_delivred_date" ></field>
+            <field name="card_id_delivred_town"></field>
+            <field name="use_bio_id"/>
+            <field name="bio_id" attrs="{'invisible':[('use_bio_id','=',False)]}"/>
+          </field>
+          <xpath expr="//page[@name='sales_purchases']" position="attributes">
+            <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='is_company']" position="attributes">
+            <attribute name="invisible" >1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='parent_id']" position="attributes">
+            <attribute name="invisible" >1</attribute>
+          </xpath>
+          <xpath expr="//label[@for='is_company']" position="replace">
+
+          </xpath>
+          <xpath expr="//label[@for='name']" position="replace">
+            <label for="name"/>
+          </xpath>
+        </data>
+
+      </field>
+    </record>
+
+    <record id="term_sale_account_partner_form" model="ir.ui.view">
+      <field name="name">term.sale.account.partner.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="account.view_partner_property_form"/>
+      <field name="arch" type="xml">
+        <data>
+          <xpath expr="//page[@name='accounting']"  position="attributes">
+            <attribute name="invisible">1</attribute>
+          </xpath>
+        </data>
+      </field>
+    </record>
+
+
+    <!-- Ressource: Formulaire de vente-->
+    <record id="term_sale_formulaire_vente_form" model="ir.ui.view">
+      <field name="name">term.sale.formulaire.vente.form</field>
+      <field name="model">formulaire.vente</field>
+      <field name="arch" type="xml">
+        <form string="Formulaire de vente">
+          <header>
+            <button string="Valider et imprimer les etats" states="open" name="action_do_validate" type="object"
+                    class="oe_highlight"/>
+            <button string="Payer"  name="%(action_term_payement_wizard)d" type="action"
+                    class="oe_highlight" attrs="{'invisible' : ['|',('type_vente','=','oeuvre'),('state','!=','done')]}"/>
+                    
+            <field name="state" widget="statusbar" readonly="1"/>
+          </header>
+          <sheet>
+            <div class="oe_right oe_button_box" name="buttons"><!-- Ramzi -->
+              <button class="oe_inline oe_stat_button" type="action" name="%(action_term_suivi_paiement_smartbutton)d" 
+                        icon="fa-strikethrough" attrs="{'invisible' : [('type_vente','=','oeuvre')]}"> <field string="Paiement" name="payment_count" widget="statinfo"/>
+                         
+              </button>     
+
+            </div>
+            <div class="oe_title oe_left">
+              <div class="oe_edit_only">
+                <label for="name" string="Numéro piéce : " />
+              </div>
+              <h1>
+                <field name="name" default_focus="1" placeholder="Name" required="1"  attrs="{'readonly' : [('state','!=','open')]}"/>
+              </h1>
+              </div> 
+                <separator/>
+                <group>
+                <group>
+                  <field name="partner_id" required="1"  attrs="{'readonly' : [('state','!=','open')]}" domain="[('customer','=','True')]"/>
+                  <field name="date"  attrs="{'readonly' : [('state','!=','open')]}"/>
+                </group>
+
+              </group>
+
+                <group>
+                <group string="Information de vente">
+                  <field name="type_vente" widget="radio"  attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="oeuvre_id" attrs="{'invisible' : [('type_vente','!=','oeuvre')],'readonly' : [('state','!=','open')]}" class="oe_inline"/>
+                  <field name="picking_id" readonly="1"  attrs="{'readonly' : [('state','!=','open')]}"/>
+                </group>
+              </group>
+
+                         
+
+            <notebook>
+              <page string="Information client">
+                <group>
+                  <group>
+                  <field name="partner_ref" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="birth_day" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="adresse" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="telephone" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="job_id" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="job_company_id" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  </group>
+                  <group>
+                  <field name="card_id_reference" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="card_id_delivred_date" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="card_id_delivred_town" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="bank"  attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="account_number" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="salary_average" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="account_raised" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="cni_pc_available" attrs="{'readonly' : [('state','!=','open')]}"/>
+                </group>
+                </group>
+
+              </page>
+              <page string="Produits">
+                <group col="1" >
+                  <field name="move_ids" attrs="{'readonly' : [('state','!=','open')]}">
+                    <tree editable="buttom">
+                      <field name="product_id"/>
+                      <field name="name" invisible="1"/>
+                      <field name="product_uom" invisible="1"/>
+                      <field name="product_uom_qty"/>
+                      <field name="unit_price"/>
+                      <field name="subtotal"/>
+                      <field name="location_id" invisible="1"></field>
+                      <field name="location_dest_id" invisible="1"/>
+                      <field name="state" invisible="1"/>
+
+                    </tree>
+                  </field>
+                </group>
+              </page>
+              <page string="Réglement">
+                <group>
+                  <group>
+                  <field name="methode" attrs="{'readonly' : ['|',('type_vente','=','oeuvre'),('state','!=','open')]}" required="1"/>
+                  <field name="total" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="avance" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="reste" attrs="{'readonly' : [('state','!=','open')]}"/>
+                </group>
+                <group>
+                  <field name="nb_mois" attrs="{'readonly' : [('state','!=','open')],'invisible' : [('methode','!=','nbre_mens')]}"/>
+                  <field name="echeance" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="date_reglement" attrs="{'readonly' : [('state','!=','open')]}"/>
+                  <field name="nb_echeance" attrs="{'readonly' : [('state','!=','open')],'invisible' : [('methode','=','nbre_mens')]}"/>
+                </group>
+                </group>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="term_sale_formulaire_vente_tree" model="ir.ui.view">
+      <field name="name">term.sale.formulaire.vente.tree</field>
+      <field name="model">formulaire.vente</field>
+      <field name="arch" type="xml">
+        <tree string="Formulaire de vente">
+          <field name="name"/>
+          <field name="date"/>
+          <field name="partner_id"/>
+          <field name="picking_id"/>
+          <field name="total" sum="total"/>
+          <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="term_formulaire_vente_search" model="ir.ui.view">
+      <field name="name">term.formulaire.vente.search</field>
+      <field name="model">formulaire.vente</field>
+      <field name="arch" type="xml">
+        <search string=" Recherche dans Formulaire de vente">
+          <field name="name"/>
+          <field name="date"/>
+          <field name="partner_id"/>
+          <field name="picking_id"/>
+          <field name="job_id"/>
+          <field name="job_company_id"/>
+          <filter string="Aujourd'hui" name="today" icon="terp-personal"
+                  domain="[('date', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00')),('date', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+          <group expand="0" string="Grouper par :">
+            <filter string="Etat" domain="[]" context="{'group_by' : 'state'}"/>
+            <filter string="Mois" domain="[]" context="{'group_by' : 'date'}"/>
+            <filter string="Client" domain="[]" context="{'group_by' : 'partner_id'}"/>
+            <filter string="Fonction" domain="[]" context="{'group_by' : 'job_id'}"/>
+            <filter string="Lieu de fonction" domain="[]" context="{'group_by' : 'job_company_id'}"/>
+
+          </group>
+        </search>
+      </field>
+    </record>
+
+
+
+
+    <record  id="action_term_formulaire_vente" model="ir.actions.act_window">
+      <field name="name">Engagement de vente</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">formulaire.vente</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="term_sale_formulaire_vente_tree"/>
+      <field name="search_view_id" ref="term_formulaire_vente_search"/>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Cliquez ici pour créer un engagement de vente
+        </p>
+        <p>
+          par ici vous pouvez créer un engagement de vente
+          qui générera automatiquement un Bon de livraison...
+        </p>
+      </field>
+    </record>
+
+
+
+
+    <record  id="action_term_sale_picking_in" model="ir.actions.act_window">
+      <field name="name">Bon de Reception</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">stock.picking</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain" eval="[('is_bl','=',False)]" />
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Cliquez ici pour créer un Bon de reception 
+        </p>
+        <p>
+          par ici vous pouvez créer un Bon de reception
+          ...
+        </p>
+      </field>
+    </record>
+
+
+    <record  id="action_term_sale_picking_out" model="ir.actions.act_window">
+      <field name="name">Bon de Livraison</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">stock.picking</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain" eval="[('is_bl','=',True)]" />
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Cliquez ici pour créer un Bon de reception 
+        </p>
+        <p>
+          par ici vous pouvez créer un Bon de reception
+          ...
+        </p>
+      </field>
+    </record>
+
+    <record id="view_picking_form_inherit" model="ir.ui.view">
+      <field name="name">term.sale.account.partner.form</field>
+      <field name="model">stock.picking</field>
+      <field name="inherit_id" ref="stock.view_picking_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_id']" position="attributes">
+          <attribute name="string">Client</attribute>
+        </xpath>
+        <xpath expr="//field[@name='min_date']" position="replace"/>
+        <xpath expr="//field[@name='origin']" position="replace"/>
+        <!--<xpath expr="//page[@string='Additional Info']" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </xpath>-->
+
+        <xpath expr="//button[@name='do_enter_transfer_details']" position="attributes">
+          <attribute name="groups">term_sale.group_term_sale_user</attribute>
+        </xpath>
+
+
+        <xpath expr="//form" position="attributes">
+          <attribute name="create">false</attribute>
+          <attribute name="delete">false</attribute>
+      </xpath>
+
+      </field>
+    </record>
+
+    <record id="view_move_picking_tree_inherit_term" model="ir.ui.view">
+      <field name="name">term.sale.account.partner.form</field>
+      <field name="model">stock.picking</field>
+      <field name="inherit_id" ref="stock.vpicktree"/>
+      <field name="arch" type="xml">
+
+        <xpath expr="//tree" position="attributes">
+          <attribute name="create">false</attribute>
+          <attribute name="delete">false</attribute>
+      </xpath>
+
+        <xpath expr="//field[@name='location_dest_id']" position="attributes">
+          <attribute name="invisible">1</attribute>
+      </xpath>
+        <xpath expr="//field[@name='origin']" position="attributes">
+          <attribute name="invisible">1</attribute>
+      </xpath>
+        <xpath expr="//field[@name='backorder_id']" position="attributes">
+          <attribute name="invisible">1</attribute>
+      </xpath>
+
+    </field>
+    </record>
+
+
+    <record id="view_stock_enter_transfer_details_inherit" model="ir.ui.view">
+      <field name="name">term.sale.account.partner.form</field>
+      <field name="model">stock.transfer_details</field>
+      <field name="inherit_id" ref="stock.view_stock_enter_transfer_details"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='item_ids']/tree[@string='Inventory Details']/field[@name='sourceloc_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='item_ids']/tree[@string='Inventory Details']/field[@name='destinationloc_id']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+      </field>
+    </record>
+
+
+
+
+
+
+
+    <menuitem id="term_sale_purchase_menu"
+      name="Achats"
+      parent="term_sale_home_root"
+      sequence="1" groups="term_sale.group_term_sale_user"/>
+
+    <menuitem id="term_sale_partners_menu"
+      name="Clients"
+      parent="term_sale_sale_menu"
+      action="base.action_partner_form"
+      sequence="0" groups="term_sale.group_term_sale_user"
+      />
+
+        <record id="purchase_rfq_term_sale" model="ir.actions.act_window">
+            <field name="name">Requests for Quotation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">tree,form,graph,calendar</field>
+            <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a request for quotation.
+              </p><p>
+                The quotation contains the history of the discussion/negotiation
+                you had with your supplier. Once confirmed, a request for
+                quotation is converted into a purchase order.
+              </p><p>
+                Most propositions of purchase orders are created automatically
+                by Odoo based on inventory needs.
+              </p>
+            </field>
+        </record>
+
+
+
+
+
+    <menuitem action="action_term_formulaire_vente" id="term_formulaire_vente_menu" name="Engagement de vente" parent="term_sale_sale_menu" sequence="1" groups="term_sale.group_term_sale_user"/>
+
+    <menuitem id="term_sale_picking_out_menu"
+      name="Bon de livraison"
+      sequence="2"
+      parent="term_sale_sale_menu"
+      action="action_term_sale_picking_out" groups="term_sale.group_term_sale_user"/>
+
+
+    <menuitem id="term_sale_supplier_menu"
+      name="Fournisseurs"
+      sequence="0"
+      parent="term_sale_purchase_menu"
+      action="base.action_partner_supplier_form" groups="term_sale.group_term_sale_user"/>
+
+    <menuitem id="term_sale_purchase_order"
+      name="Bon de commande"
+      sequence="1"
+      parent="term_sale_purchase_menu"
+      action="purchase_rfq_term_sale" groups="term_sale.group_term_sale_user"/>
+
+   <menuitem id="term_sale_picking in"
+      name="Bon de Reception"
+      sequence="2"
+      parent="term_sale_purchase_menu"
+      action="action_term_sale_picking_in" groups="term_sale.group_term_sale_user"/>
+
+  <menuitem id="term_sale_stock"
+    name="Stock"
+    sequence="2"
+    parent="term_sale_home_root" groups="term_sale.group_term_sale_user"/>
+
+  <menuitem id="term_sale_products"
+    name="Articles"
+    sequence="0"
+    parent="term_sale_stock"
+    action="product.product_template_action" groups="term_sale.group_term_sale_user"/>
+
+
+
+    <record id="term_sale_tresorerie_form" model="ir.ui.view">
+      <field name="name">term.sale.tresorerie.form</field>
+      <field name="model">term.tresorerie</field>
+      <field name="arch" type="xml">
+        <form string="Tresorerie">
+            <group>
+              <field name="date_start"/>
+              <field name="date_end"/>
+              <field name="currency_id" invisible="1"/>
+              <label for="product_id"/>
+                            <div>
+                <field name="product_id" class="oe_inline"/>
+                <span class="oe_grey"> Si vous laissez ce champ vide ,il va calculer le chiffre d'affaire pour tous les produits</span>
+                <button string="Calculer" class="oe_highlight" type="object" name="calculer"/>
+
+              </div>
+
+              <field name="amount_purchase" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+              <field name="amount_sale" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+              <field name="amount_ca" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+            </group>
+          <footer>
+            <button string="Fermé" class="oe_link" special="cancel"/>
+
+          </footer>
+
+        </form>
+      </field>
+    </record>
+
+
+        <record id="term_tresorerie_action" model="ir.actions.act_window">
+            <field name="name">Trésorerie</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">term.tresorerie</field>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="term_sale_tresorerie_form"/>
+        </record>
+
+
+
+
+
+  <menuitem id="term_sale_tresorerie"
+    name="Trésorerie"
+    sequence="3"
+    parent="term_sale_home_root" groups="term_sale.group_term_sale_su"/>
+
+  <menuitem id="term_sale_tresorerie1"
+    name="Chiffre d'affaires"
+    sequence="0"
+    parent="term_sale_tresorerie"
+    action="term_tresorerie_action" groups="term_sale.group_term_sale_su"/>
+
+
+  </data>
+</openerp>

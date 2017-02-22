@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+
+
+
+
+
+    <record id="term_sale_suivi_paiement_tree" model="ir.ui.view">
+      <field name="name">term.sale.suivi.paiement.tree</field>
+      <field name="model">suivi.payement</field>
+      <field name="arch" type="xml">
+        <tree string="Formulaire de vente" create='false' delete="false">
+          <field name="date"/>
+          <field name="echeance" sum='Total'/>
+          <field name="methode"/>
+          <field name="date_virement"/>
+        </tree>
+      </field>
+    </record>
+
+
+
+
+
+    <record  id="action_term_suivi_paiement" model="ir.actions.act_window">
+      <field name="name">Suivi de paiement</field>
+      <field name="res_model">suivi.payement</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree</field>
+      <field name="context">{'group_by' : 'formulaire_id'}</field>
+      <field name="help" type="html">
+        <p>...</p>
+      </field>
+    </record>
+
+
+
+    <record  id="action_term_suivi_paiement_smartbutton" model="ir.actions.act_window">
+      <field name="name">Suivi de paiement</field>
+      <field name="res_model">suivi.payement</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree</field>
+      <field name="context">{'search_default_formulaire_id' : active_id}</field>
+      <field name="help" type="html">
+        <p>...</p>
+      </field>
+    </record>
+
+    <menuitem action="action_term_suivi_paiement" id="term_suivi_paiement_menu" name="Suivi de paiement" parent="term_sale_sale_menu" sequence="10" />
+
+      <record id="view_suivi_payment_filter" model="ir.ui.view">
+            <field name="name">sale.order.list.select</field>
+            <field name="model">suivi.payement</field>
+            <field name="arch" type="xml">
+                <search string="Search Sales Order">
+                    <field name="formulaire_id"/>
+                    <!--<filter string="My" domain="[('user_id','=',uid)]" name="my_sale_orders_filter"/>-->
+                    <separator/>
+                    <separator/>
+                    <!--<group expand="0" string="Group By">
+                        <filter string="Salesperson" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Formulaire" domain="[]" context="{'group_by':'formulaire_id'}"/>
+                    </group>-->
+               </search>
+            </field>
+        </record>
+
+
+
+  </data>
+</openerp>

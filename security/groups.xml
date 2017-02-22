@@ -1,0 +1,31 @@
+ <openerp>
+ 	<data>
+ 		<record model="ir.module.category" id="module_category_term_sale">
+      		<field name="name">NourInfo</field>
+     		<field name="description">Vente Articles electromenager ....</field>
+      		<field name="sequence">5</field>
+   		 </record>
+
+
+   	  <record id="group_term_sale_su" model="res.groups">
+      <field name="name">Gerants</field>
+      <field name="category_id" ref="term_sale.module_category_term_sale"/>
+    </record>
+
+    <record id="group_term_sale_user" model="res.groups">
+      <field name="name">Vendeurs</field>
+      <field name="category_id" ref="term_sale.module_category_term_sale"/>
+
+    </record>
+
+
+    <record id="group_term_sale_hiden" model="res.groups">
+    	<field name="name">Hiden</field>
+    </record>
+
+
+    
+   	</data>
+</openerp>
+
+

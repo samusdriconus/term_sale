@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<template id="formulaire_vente_report">
+		    <t t-call="report.html_container">
+		        <t t-foreach="docs" t-as="o">
+		        	<div class="header">
+		        		<center><h2><span t-field="res_company.entete"/></h2></center>
+		        	</div>
+		            <div class="page">
+		        		<center><h1>Formulaire de vente </h1></center>
+
+		        		<table class="table table-bordered" style="border: 2px solid">
+	                        <tbody>
+	                            <tr>
+	                                <td style="border: 2px solid"><b>Piéce : </b><span t-field="o.name"/></td>
+	                                <td style="border: 2px solid"><b>Date : </b><span t-field="o.date"/></td>
+	                                <td style="border: 2px solid"><b>Numéro client : </b><span t-if="o.partner_id.use_bio_id" ><span t-field="o.partner_id.bio_id"/> </span><span t-if="not o.partner_id.use_bio_id"><span t-field="o.partner_id.reference"/></span> </td>
+	                            </tr>
+                        	</tbody>                    
+
+	                    </table>
+
+		        		<table class="table table-bordered" style="border: 2px solid">
+	                        <thead>
+	                            <tr >
+	                                <th colspan="2" class="text-center" style="border: 2px solid"><b><h2>Identification client</h2></b></th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr>
+	                            	<td style="border: 2px solid"><b>Nom : </b><span t-field="o.partner_id.name"/></td>
+	                                <td style="border: 2px solid"><b>Date de naissance : </b><span t-field="o.birth_day"/></td>
+	                            </tr>
+	                            <tr>
+	                            	<td style="border: 2px solid"><b>Adresse : </b><span t-field="o.adresse"/></td>
+	                                <td style="border: 2px solid"><b>Fonction : </b><span t-field="o.job_id.name"/></td>
+	                            </tr>
+	                            <tr>
+	                            	<td style="border: 2px solid"><b>N° Piéce d'identité : </b><span t-field="o.card_id_reference"/></td>
+	                                <td style="border: 2px solid"><b>Délivré le : </b><span t-field="o.card_id_delivred_date"/></td>
+	                            </tr>
+	                            <tr>
+	                            	<td style="border: 2px solid"><b>Banque : </b><span t-field="o.bank"/></td>
+	                                <td style="border: 2px solid"><b>N° compte : </b><span t-field="o.account_number"/></td>
+	                            </tr>
+	                            <tr>
+	                            	<td style="border: 2px solid"><b>Relevé compte : </b><span t-if="o.account_raised">Oui</span><span t-if="not o.account_raised">Non</span></td>
+	                                <td style="border: 2px solid"><b>Validité CNI/PC : </b><span t-if="o.cni_pc_available">Oui</span><span t-if="not o.cni_pc_available">Non</span></td>
+	                            </tr>
+	                            <tr>
+	                            	<td style="border: 2px solid"><b>Salaire > 15000 : </b><span t-if="o.salary_average">Oui</span><span t-if="not o.salary_average">Non</span></td>
+	                                <td style="border: 2px solid"><b>Recouvrement : </b><span t-if="o.account_raised">Oui</span><span t-if="not o.account_raised">Non</span></td>
+	                            </tr>
+
+
+                        	</tbody>                    
+
+	                    </table>
+	                    <br/>
+						
+						<center><h2>Identification des produits</h2></center>
+	                    <br/>
+						
+		        		<table class="table table-condensed">
+	                        <thead>
+	                            <tr>
+	                                <th>Déscription</th>
+	                                <th>Quantité</th>
+	                                <th class="text-right">Prix unitaire</th>
+	                                <th class="text-right">Sous total</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr t-foreach="o.move_ids" t-as="line">
+
+	                                <td><span t-field="line.name"/></td>
+	                                <td><span t-field="line.product_uom_qty"/></td>
+	                                <td class="text-right"><span t-field="line.unit_price" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+	                                <td class="text-right"><span t-field="line.subtotal" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+	                            </tr>
+                        	</tbody>                    
+
+	                    </table>
+	                    <br/>
+	                    <br/>
+						
+
+		        		<table class="table table-bordered" style="border: 1px solid">
+	                        <thead>
+	                            <tr>
+	                                <th style="border: 1px solid">Montant</th>
+	                                <th style="border: 1px solid">Avance</th>
+	                                <th class="text-right" style="border: 1px solid">Reste</th>
+	                                <th class="text-right" style="border: 1px solid">Nbre mens</th>
+	                                <th class="text-right" style="border: 1px solid">Echeance</th>
+	                                <th class="text-right" style="border: 1px solid">Date de réglement</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr>
+
+	                                <td style="border: 1px solid"><span t-field="o.total" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+	                                <td style="border: 1px solid"><span t-field="o.avance" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+	                                <td class="text-right" style="border: 1px solid"><span t-field="o.reste" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+	                                <td class="text-right" style="border: 1px solid"><span t-field="o.nb_echeance"/></td>
+	                                <td class="text-right" style="border: 1px solid"><span t-field="o.echeance" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+	                                <td class="text-right" style="border: 1px solid"><span t-field="o.date_reglement"/></td>
+	                            </tr>
+                        	</tbody>                    
+
+	                    </table>
+	                    <br/>
+	                    <br/>
+		        		<table class="table-condensed" style="border-top:0px">
+	                            <tr>
+	                                <td style="width:82%"><b>Signature client avec empreinte</b></td>
+	                                <td style="width:100%"><b>Signature Entreprise</b></td>
+	                            </tr>
+
+	                    </table>
+	                    <br/>
+	                    <br/>
+	                    <br/>
+	                    <br/>
+	                    <br/>
+	                    <br/>
+	                    <br/>
+	                    <br/>
+
+	                    <div>
+	                    	<p><b>NB : </b>Pour bénéficier de la <b><u>garantie</u></b> le client doit : <br/>
+	                    	- Présenter le présent formulaire de vente (obligatoire).<br/>
+	                        - Conserver l'emballage du produit.</p>
+	                    </div>
+
+
+
+		        	</div>
+		        </t>
+		    </t>
+
+
+
+
+
+				    <t t-call="report.html_container">
+				        <t t-foreach="docs" t-as="o">
+				        	<div class="header">
+				        		<center><h2><span t-field="res_company.entete"/></h2></center>
+				        	</div>
+				            <div class="page">
+		        				<h1><b><u><span t-field="o.name"/></u></b></h1>
+		        				<br/>
+		        				<table class="table table-condensed">
+	                            <tr>
+	                                <td><b>Date : </b><span t-field="o.date"/></td>
+	                                <td><b>N°Client : </b><span t-field="o.partner_ref" style="font-size: 20px; text-decoration: underline" class="underline"/></td>
+	                            </tr>
+	                            <tr>
+	                                <td><b>Client : </b><span t-field="o.partner_id.name"/></td>
+	                                <td><b>Téléphone : </b><span t-field="o.telephone"/></td>
+	                            </tr>
+	                            <tr>
+	                                <td><b>Fonction : </b><span t-field="o.partner_id.job_company_id.name"/></td>
+	                                <td><b>Piéce N° : </b><span t-field="o.picking_id.name"/></td>
+	                            </tr>
+
+	                    </table>
+
+		        		<table class="table table-condensed">
+	                        <thead>
+	                            <tr>
+	                                <th><h3><b><u>Identification des produits</u></b></h3></th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr t-foreach="o.move_ids" t-as="line">
+
+	                                <td><span t-field="line.name"/></td>
+	                            </tr>
+                        	</tbody>                    
+
+	                    </table>
+		        		<table class="table table-bordered" style="border: 1px solid">
+	                        <thead>
+	                            <tr>
+	                                <th style="border: 1px solid">Montant</th>
+	                                <th style="border: 1px solid">Avance</th>
+   	                                <th class="text-right" style="border: 1px solid">Echeance</th>
+
+	                                <th class="text-right" style="border: 1px solid">Nbre mens</th>
+	                                <th class="text-right" style="border: 1px solid">Nbre chéque</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr>
+
+	                                <td style="border: 1px solid"><span t-field="o.total" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+	                                <td style="border: 1px solid"><span t-field="o.avance" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+	                                <td class="text-right" style="border: 1px solid"><span t-field="o.echeance" t-field-options='{"widget": "monetary", "display_currency": "res_company.currency_id"}'/></td>
+	                                <td class="text-right" style="border: 1px solid"><span t-field="o.nb_echeance"/></td>
+	                                <td class="text-right" style="border: 1px solid"><span t-field="o.nb_echeance"/></td>
+	                            </tr>
+                        	</tbody>                    
+
+	                    </table>
+		        		<table class="table table-bordered" style="border: 1px solid">
+	                        <thead>
+	                            <tr>
+	                                <th class="text-center" style="border: 1px solid"><h2>Date</h2></th>
+	                                <th class="text-center" style="border: 1px solid;width: 550"><h2>N°cheque</h2></th>
+   	                                <th class="text-center" style="border: 1px solid"><h2>signature</h2></th>
+
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr t-foreach="range(o.nb_echeance)" t-as="line">
+	                                <td style="border: 1px solid"><p/>  </td>
+	                                <td style="border: 1px solid;width: 550" ><p/>  </td>
+	                                <td class="text-right" style="border: 1px solid"><p/>  </td>
+
+	                            </tr>
+                        	</tbody>                    
+
+	                    </table>
+
+
+		        			</div>
+		        		</t>
+		        	</t>
+
+		</template>
+	</data>
+</openerp>

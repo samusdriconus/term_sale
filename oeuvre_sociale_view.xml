@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+
+    <record  id="action_term_oeuvre_etat_btn" model="ir.actions.act_window">
+      <field name="name">Oeuvre Etat</field>
+      <field name="res_model">oeuvre.etat</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{}</field>
+      <field name="domain">[('oeuvre_id','=',active_id)]</field>
+      <field name="help" type="html">
+        <p>...</p>
+      </field>
+    </record>
+
+
+
+
+
+
+
+    <record id="term_sale_oeuvre_sociale_tree" model="ir.ui.view">
+      <field name="name">term.sale.suivi.paiement.tree</field>
+      <field name="model">oeuvre.sociale</field>
+      <field name="arch" type="xml">
+        <tree string="Oeuvre sociale" >
+          <field name="name"/>
+          <field name="fonction"/>
+          <field name="nb_client"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="term_sale_oeuvre_sociale_form" model="ir.ui.view">
+      <field name="name">term.sale.suivi.paiement.form</field>
+      <field name="model">oeuvre.sociale</field>
+      <field name="arch" type="xml">
+        <form string="Oeuvre sociale" delete="false">
+          <sheet>
+          <div class="oe_right oe_button_box" style="width: 300px;" name="buttons" attrs="{'invisible' : [('nb_etat','=','0 Etat(s)')]}">
+
+              <button class="oe_stat_button"
+                           name="%(action_term_oeuvre_etat_btn)d"
+                           icon="fa-building-o"
+                           type="action">
+                           <div><field name="nb_etat"/></div>
+              </button>
+          </div>
+          <div class="oe_left">
+            <label for="name" class="oe_edit_only"/>
+              <h1>
+          <field name="name" required="1"/>
+          </h1>
+
+          <div>
+          <label for="fonction"/>
+          <field name="fonction" required="1" class="oe_inline"/>
+        </div>
+      </div>
+        
+          <field name="nb_client" invisible="1"/>
+          <notebook>
+            <page string="Clients">
+              <field name="client_ids"/>
+            </page>
+          </notebook>
+        </sheet>
+        </form>
+      </field>
+    </record>
+
+
+
+
+
+
+    <record  id="action_term_oeuvre_sociale" model="ir.actions.act_window">
+      <field name="name">Oeuvre sociale</field>
+      <field name="res_model">oeuvre.sociale</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{}</field>
+      <field name="help" type="html">
+        <p>...</p>
+      </field>
+    </record>
+
+
+
+
+    <menuitem action="action_term_oeuvre_sociale" id="term_oeuvre_sociale_menu"  parent="term_sale_sale_menu" sequence="11" groups="term_sale.group_term_sale_user"/>
+
+    <!-- Oeuvre etat -->
+
+    <record id="term_sale_etat_tree" model="ir.ui.view">
+      <field name="name">term.sale.etat.tree</field>
+      <field name="model">oeuvre.etat</field>
+      <field name="arch" type="xml">
+        <tree string="Oeuvre etat" create="false">
+          <field name="name"/>
+          <field name="date_impression"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="term_sale_oeuvre_etat_form" model="ir.ui.view">
+      <field name="name">term.sale.etat.form</field>
+      <field name="model">oeuvre.etat</field>
+      <field name="arch" type="xml">
+        <form string="Oeuvre sociale" create="false" write="false">
+          <sheet>
+            <label for="name" class="oe_edit_only"/>
+              <h1>
+          <field name="name" required="1"/>
+          </h1>
+          <div>
+          <label for="date_impression"/>
+          <field name="date_impression" required="1" class="oe_inline"/>
+        </div>
+        
+          <notebook>
+            <page string="Clients">
+              <field name="client_ids">
+                <tree string="Client">
+                  <field name="name"/>
+                  <field name="partner_id"/>
+                  <field name="total"/>
+                  <field name="avance"/>
+                  <field name="echeance"/>
+                  <field name="nb_echeance"/>
+                </tree>
+              </field>
+            </page>
+            <field name="total_avance" invisible="1"/>
+            <field name="total_echeance" invisible="1"/>
+
+          </notebook>
+        </sheet>
+        </form>
+      </field>
+    </record>
+
+
+    <record  id="action_term_oeuvre_etat" model="ir.actions.act_window">
+      <field name="name">Oeuvre Etat</field>
+      <field name="res_model">oeuvre.etat</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{}</field>
+      <field name="help" type="html">
+        <p>...</p>
+      </field>
+    </record>
+
+
+
+
+
+
+
+
+    <!--<menuitem action="action_term_oeuvre_etat" id="term_oeuvre_etat_menu"  parent="term_sale_sale_menu" sequence="12" groups="term_sale.group_term_sale_su"/>-->
+
+
+
+  </data>
+</openerp>

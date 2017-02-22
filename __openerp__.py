@@ -11,7 +11,6 @@
 
 
     """,
-    'website': 'https://www.dualpos.com',
     'depends': ['sale', 'purchase'],
     'category': 'Term payment Management',
     'sequence': 1,
